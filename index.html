@@ -1182,7 +1182,7 @@
       <div class="login-footer">
         <div style="font-size: 11px; color: #64748b; margin-top: 18px; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 12px;">
           <i class="fa-solid fa-circle-info"></i> লগইন ছাড়া কোনো তথ্য বা পেজ এক্সেস করা যাবে না।<br>
-          <span style="display: inline-block; margin-top: 4px; color: #475569;">Login: <strong>ID</strong> | Pass: <strong>Pass</strong></span>
+          <span style="display: inline-block; margin-top: 4px; color: #475569;"> Login: <strong>ID</strong> | Pass: <strong>PASS</strong> (বা আপনার নতুন ইউজার আইডি ও পাসওয়ার্ড দিয়ে লগইন করুন)</span>
         </div>
       </div>
     </div>
@@ -1815,7 +1815,7 @@
           <div class="grid-2" style="gap: 15px;">
             <div class="form-group" style="margin-bottom: 0;">
               <label style="font-weight: bold; font-size: 12px;">Google Apps Script Web App URL *</label>
-              <input type="url" id="googleSheetUrlInput" value="https://script.google.com/macros/s/AKfycbymPUgrFZW3eAFtL_tuhvhsNCeHtEtgPyVbHEbYA5dLlchSyNRGWwE67C23kPIlcUbYdw/exec" placeholder="https://script.google.com/macros/s/AKfycb.../exec" style="width: 100%; font-size: 12px; padding: 9px; border: 1.5px solid #28a745; border-radius: 4px;" />
+              <input type="url" id="googleSheetUrlInput" value="https://script.google.com/macros/s/AKfycbw66_2tleUAGRcxz0GeMDwUTZcVMFZoOCgu9id24RPaZaXyJgqTRbfKIOZ70F5V9gBslw/exec" placeholder="https://script.google.com/macros/s/AKfycb.../exec" style="width: 100%; font-size: 12px; padding: 9px; border: 1.5px solid #28a745; border-radius: 4px;" />
             </div>
             <div class="form-group" style="margin-bottom: 0;">
               <label style="font-weight: bold; font-size: 12px;">সিকিউরিটি পাসকোড (Security Passcode - Optional)</label>
@@ -2130,7 +2130,7 @@
     let appUsers = [];
     let currentUserSession = null;
 
-    const DEFAULT_GSHEET_URL = 'https://script.google.com/macros/s/AKfycbymPUgrFZW3eAFtL_tuhvhsNCeHtEtgPyVbHEbYA5dLlchSyNRGWwE67C23kPIlcUbYdw/exec';
+    const DEFAULT_GSHEET_URL = 'https://script.google.com/macros/s/AKfycbw66_2tleUAGRcxz0GeMDwUTZcVMFZoOCgu9id24RPaZaXyJgqTRbfKIOZ70F5V9gBslw/exec';
 
     let appCustomers = [];
     let appProducts = [];
@@ -2268,23 +2268,42 @@
 
     // Fetch Users live from Google Sheet (Cross-device support)
     async function fetchUsersFromGoogleSheet() {
-      if (!gsheetConfig.url) return appUsers;
+      const activeUrl = gsheetConfig.url || DEFAULT_GSHEET_URL;
+      if (!activeUrl) return appUsers;
       try {
-        const res = await fetch(gsheetConfig.url, { method: 'GET' });
+        const res = await fetch(activeUrl, { method: 'GET' });
         const db = await res.json();
         if (db && db.status === 'success' && Array.isArray(db.users) && db.users.length > 0) {
           const userMap = new Map();
           db.users.forEach(u => {
-            if (u.username) userMap.set(String(u.username).toLowerCase(), u);
+            if (u.username) {
+              const uname = String(u.username).trim();
+              userMap.set(uname.toLowerCase(), {
+                username: uname,
+                password: String(u.password != null ? u.password : '').trim(),
+                name: u.name || '',
+                role: u.role || 'Operator',
+                createdAt: u.createdAt || ''
+              });
+            }
           });
           appUsers.forEach(u => {
-            if (u.username && !userMap.has(String(u.username).toLowerCase())) {
-              userMap.set(String(u.username).toLowerCase(), u);
+            if (u.username) {
+              const uname = String(u.username).trim();
+              if (!userMap.has(uname.toLowerCase())) {
+                userMap.set(uname.toLowerCase(), {
+                  username: uname,
+                  password: String(u.password != null ? u.password : '').trim(),
+                  name: u.name || '',
+                  role: u.role || 'Operator',
+                  createdAt: u.createdAt || ''
+                });
+              }
             }
           });
           appUsers = Array.from(userMap.values());
           persistData(DB_KEYS.USERS, appUsers);
-          console.log('Fetched ' + appUsers.length + ' users from cloud Google Sheet.');
+          console.log('Fetched ' + appUsers.length + ' users from cloud Google Sheet:', appUsers.map(x => x.username));
           return appUsers;
         }
       } catch (e) {
@@ -2304,17 +2323,25 @@
 
       if (errorDiv) errorDiv.style.display = 'none';
 
-      // 1. Check local users first
-      let matched = appUsers.find(u => u.username && u.username.toLowerCase() === username.toLowerCase() && u.password === password);
+      const checkMatch = () => {
+        return appUsers.find(u => 
+          u.username && 
+          String(u.username).trim().toLowerCase() === username.toLowerCase() && 
+          String(u.password != null ? u.password : '').trim() === password
+        );
+      };
 
-      // 2. If not found locally, fetch latest users from Google Sheet live (supports newly created users from other devices)
-      if (!matched && gsheetConfig.url) {
+      // 1. Check local users first
+      let matched = checkMatch();
+
+      // 2. If not found locally, fetch latest users from Google Sheet live (cross-device verification)
+      if (!matched) {
         if (submitBtn) {
           submitBtn.disabled = true;
           submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ক্লাউড ভেরিফাই হচ্ছে...';
         }
         await fetchUsersFromGoogleSheet();
-        matched = appUsers.find(u => u.username && u.username.toLowerCase() === username.toLowerCase() && u.password === password);
+        matched = checkMatch();
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = originalBtnHtml;
@@ -2488,10 +2515,11 @@
             gsheetConfig = { ...gsheetConfig, ...parsed };
           } catch(e) {}
         }
-        // Always ensure default URL is active
-        if (!gsheetConfig.url) {
+        // Always ensure latest active URL is set (auto-migrating old deployment URLs)
+        if (!gsheetConfig.url || gsheetConfig.url.includes('kPIlcUbYdw')) {
           gsheetConfig.url = DEFAULT_GSHEET_URL;
           gsheetConfig.connected = true;
+          persistData(DB_KEYS.GOOGLE_SHEET, gsheetConfig);
         }
       } catch (e) {
         console.error("Error loading local storage", e);
