@@ -1182,7 +1182,7 @@
       <div class="login-footer">
         <div style="font-size: 11px; color: #64748b; margin-top: 18px; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 12px;">
           <i class="fa-solid fa-circle-info"></i> লগইন ছাড়া কোনো তথ্য বা পেজ এক্সেস করা যাবে না।<br>
-          <span style="display: inline-block; margin-top: 4px; color: #475569;"> Login: <strong>ID</strong> | Pass: <strong>Pass</strong></span>
+          <span style="display: inline-block; margin-top: 4px; color: #475569;">Login: <strong>ID</strong> | Pass: <strong>Pass</strong></span>
         </div>
       </div>
     </div>
@@ -2230,6 +2230,8 @@
       } catch (e) {}
 
       lockAppView();
+      // Fetch users in background from Google Sheet so other devices get latest users immediately
+      fetchUsersFromGoogleSheet().catch(() => {});
     }
 
     function lockAppView() {
@@ -2264,14 +2266,61 @@
       }
     }
 
-    function handleLoginSubmit(event) {
+    // Fetch Users live from Google Sheet (Cross-device support)
+    async function fetchUsersFromGoogleSheet() {
+      if (!gsheetConfig.url) return appUsers;
+      try {
+        const res = await fetch(gsheetConfig.url, { method: 'GET' });
+        const db = await res.json();
+        if (db && db.status === 'success' && Array.isArray(db.users) && db.users.length > 0) {
+          const userMap = new Map();
+          db.users.forEach(u => {
+            if (u.username) userMap.set(String(u.username).toLowerCase(), u);
+          });
+          appUsers.forEach(u => {
+            if (u.username && !userMap.has(String(u.username).toLowerCase())) {
+              userMap.set(String(u.username).toLowerCase(), u);
+            }
+          });
+          appUsers = Array.from(userMap.values());
+          persistData(DB_KEYS.USERS, appUsers);
+          console.log('Fetched ' + appUsers.length + ' users from cloud Google Sheet.');
+          return appUsers;
+        }
+      } catch (e) {
+        console.warn('Could not fetch users from Google Sheet:', e);
+      }
+      return appUsers;
+    }
+
+    async function handleLoginSubmit(event) {
       event.preventDefault();
+      const submitBtn = event.target.querySelector('button[type="submit"]');
+      const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
       const username = (document.getElementById('loginUsername').value || '').trim();
       const password = (document.getElementById('loginPassword').value || '').trim();
       const errorDiv = document.getElementById('loginErrorMsg');
       const errorText = document.getElementById('loginErrorText');
 
-      const matched = appUsers.find(u => u.username && u.username.toLowerCase() === username.toLowerCase() && u.password === password);
+      if (errorDiv) errorDiv.style.display = 'none';
+
+      // 1. Check local users first
+      let matched = appUsers.find(u => u.username && u.username.toLowerCase() === username.toLowerCase() && u.password === password);
+
+      // 2. If not found locally, fetch latest users from Google Sheet live (supports newly created users from other devices)
+      if (!matched && gsheetConfig.url) {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ক্লাউড ভেরিফাই হচ্ছে...';
+        }
+        await fetchUsersFromGoogleSheet();
+        matched = appUsers.find(u => u.username && u.username.toLowerCase() === username.toLowerCase() && u.password === password);
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnHtml;
+        }
+      }
+
       if (matched) {
         localStorage.setItem(DB_KEYS.AUTH_SESSION, JSON.stringify({
           username: matched.username,
@@ -2352,7 +2401,7 @@
       });
     }
 
-    function handleCreateUser(e) {
+    async function handleCreateUser(e) {
       e.preventDefault();
       const name = (document.getElementById('newUsername').value || '').trim();
       const pass = (document.getElementById('newUserPassword').value || '').trim();
@@ -2377,12 +2426,17 @@
 
       appUsers.push(newUser);
       persistData(DB_KEYS.USERS, appUsers);
-      syncSingleItemToGoogleSheet('saveUser', { user: newUser });
-
       document.getElementById('newUsername').value = '';
       document.getElementById('newUserPassword').value = '';
       renderUserListTable();
-      showSyncToast('নতুন ইউজার "' + name + '" সফলভাবে তৈরি করা হয়েছে!', 'success');
+      showSyncToast('ইউজার "' + name + '" তৈরি হয়েছে! ক্লাউডে পাঠানো হচ্ছে...', 'info');
+
+      try {
+        await syncSingleItemToGoogleSheet('saveUser', { user: newUser });
+        showSyncToast('ইউজার "' + name + '" গুগল শিট ক্লাউড ডাটাবেজে সফলভাবে সংরক্ষিত হয়েছে!', 'success');
+      } catch (err) {
+        console.warn('Sync user error:', err);
+      }
     }
 
     function promptChangeUserPassword(username) {
@@ -4752,7 +4806,8 @@ function formatHeaderRow(sheet, bgColor, colCount) {
           customers: appCustomers,
           products: appProducts,
           invoices: appInvoices,
-          receipts: appReceipts
+          receipts: appReceipts,
+          users: appUsers
         };
 
         await fetch(gsheetConfig.url, {
