@@ -929,35 +929,308 @@
         print-color-adjust: exact !important;
       }
     }
+
+    /* ========================================== */
+    /* LOGIN & AUTHENTICATION PORTAL STYLING      */
+    /* ========================================== */
+    .login-wrapper {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #1e0b0c 0%, #581617 40%, #0f172a 100%);
+      padding: 20px;
+    }
+
+    .login-card {
+      background: #ffffff;
+      width: 440px;
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+      padding: 35px 30px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #9c2a2b, #ffd166, #9c2a2b);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .login-icon-box {
+      width: 65px;
+      height: 65px;
+      background: #fbeeed;
+      color: #9c2a2b;
+      font-size: 28px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 12px rgba(156, 42, 43, 0.15);
+    }
+
+    .login-header h2 {
+      font-size: 17px;
+      margin: 0 0 4px 0;
+      color: #9c2a2b;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .login-subtitle {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .login-portal-badge {
+      display: inline-block;
+      margin-top: 8px;
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 4px 12px;
+      border-radius: 14px;
+    }
+
+    .login-error-alert {
+      background: #fee2e2;
+      border: 1px solid #ef4444;
+      color: #b91c1c;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    .login-field-group {
+      margin-bottom: 16px;
+    }
+
+    .login-field-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: bold;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+
+    .login-field-group input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-sizing: border-box;
+    }
+
+    .login-field-group input:focus {
+      border-color: #9c2a2b;
+      box-shadow: 0 0 0 3px rgba(156, 42, 43, 0.15);
+    }
+
+    .password-input-wrap {
+      position: relative;
+    }
+
+    .btn-toggle-pwd {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: #64748b;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 4px;
+    }
+
+    .btn-login-submit {
+      width: 100%;
+      padding: 12px;
+      background: #9c2a2b;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .btn-login-submit:hover {
+      background: #7a1f20;
+    }
+
+    /* Floating Toast System */
+    .sync-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 99999;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .sync-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .sync-toast.success {
+      background: #15803d;
+      color: #ffffff;
+    }
+
+    .sync-toast.loading {
+      background: #0284c7;
+      color: #ffffff;
+    }
+
+    .sync-toast.warning {
+      background: #d97706;
+      color: #ffffff;
+    }
+
+    .sync-toast.error {
+      background: #dc2626;
+      color: #ffffff;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Top Application Header -->
-  <header class="app-header">
-    <div class="brand-title">
-      <i class="fa-solid fa-file-invoice-dollar"></i>
-      <div class="brand-text">
-        <h1>মেসার্স রহমত এন্ড সন্স ট্রেড ইন্টারন্যাশনাল</h1>
-        <small>Smart Billing, Customer Ledger & Accounts Software</small>
+  <!-- ========================================== -->
+  <!-- SECURE LOGIN SCREEN (লগইন পোর্টাল)       -->
+  <!-- ========================================== -->
+  <div id="loginScreen" class="login-wrapper">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-icon-box">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h2>মেসার্স রহমত এন্ড সন্স ট্রেড ইন্টারন্যাশনাল</h2>
+        <div class="login-subtitle">M/S RAHMAT & SONS TRADE INTERNATIONAL</div>
+        <p class="login-portal-badge"><i class="fa-solid fa-lock"></i> সিকিউর ক্লাউড ইআরপি ও বিলিং পোর্টাল</p>
+      </div>
+
+      <div id="loginErrorMsg" class="login-error-alert" style="display: none;">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <span id="loginErrorText">ভুল ইউজার আইডি অথবা পাসওয়ার্ড!</span>
+      </div>
+
+      <form id="loginForm" onsubmit="handleLoginSubmit(event)">
+        <div class="login-field-group">
+          <label><i class="fa-solid fa-user"></i> ইউজার আইডি (User ID / Username)</label>
+          <input type="text" id="loginUsername" required placeholder="User ID লিখুন (যেমন: admin)" autofocus autocomplete="username" />
+        </div>
+
+        <div class="login-field-group">
+          <label><i class="fa-solid fa-key"></i> পাসওয়ার্ড (Password)</label>
+          <div class="password-input-wrap">
+            <input type="password" id="loginPassword" required placeholder="পাসওয়ার্ড লিখুন" autocomplete="current-password" />
+            <button type="button" class="btn-toggle-pwd" onclick="togglePasswordVisibility('loginPassword', this)">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-login-submit">
+          <i class="fa-solid fa-right-to-bracket"></i> লগইন করুন (Access Portal)
+        </button>
+      </form>
+
+      <div class="login-footer">
+        <div style="font-size: 11px; color: #64748b; margin-top: 18px; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+          <i class="fa-solid fa-circle-info"></i> লগইন ছাড়া কোনো তথ্য বা পেজ এক্সেস করা যাবে না।<br>
+          <span style="display: inline-block; margin-top: 4px; color: #475569;">Admin ID: <strong>admin</strong> | Pass: <strong>Tally</strong></span>
+        </div>
       </div>
     </div>
-    
-    <div class="header-quick-stats">
-      <div class="stat-badge">
-        <i class="fa-solid fa-users"></i>
-        <span>কাস্টমার: <b id="statTotalCustomers">0</b></span>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MAIN AUTHENTICATED APP WRAPPER             -->
+  <!-- ========================================== -->
+  <div id="mainAppWrapper" style="display: none;">
+
+    <!-- Top Application Header -->
+    <header class="app-header">
+      <div class="brand-title">
+        <i class="fa-solid fa-file-invoice-dollar"></i>
+        <div class="brand-text">
+          <h1>মেসার্স রহমত এন্ড সন্স ট্রেড ইন্টারন্যাশনাল</h1>
+          <small>Smart Billing, Customer Ledger & Accounts Software</small>
+        </div>
       </div>
-      <div class="stat-badge">
-        <i class="fa-solid fa-hand-holding-dollar"></i>
-        <span>মোট বকেয়া: <b id="statTotalReceivable">৳ 0.00</b></span>
+      
+      <div class="header-quick-stats">
+        <div class="stat-badge">
+          <i class="fa-solid fa-users"></i>
+          <span>কাস্টমার: <b id="statTotalCustomers">0</b></span>
+        </div>
+        <div class="stat-badge">
+          <i class="fa-solid fa-hand-holding-dollar"></i>
+          <span>মোট বকেয়া: <b id="statTotalReceivable">৳ 0.00</b></span>
+        </div>
+        <div id="cloudBadge" class="cloud-status" style="background-color: #16a34a;">
+          <i class="fa-solid fa-cloud-check"></i>
+          <span id="cloudStatusText">Google Sheet Connected</span>
+        </div>
+
+        <!-- User Profile & Action Controls -->
+        <div id="userProfileBadge" class="stat-badge" style="background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.35);">
+          <i class="fa-solid fa-user-circle" style="color: #ffd166;"></i>
+          <span id="activeUserDisplay" style="font-weight: bold;">admin</span>
+          <span id="activeRoleDisplay" style="background: #ffd166; color: #7a1f20; padding: 1px 6px; border-radius: 10px; font-size: 10px; margin-left: 4px; font-weight: bold;">Admin</span>
+        </div>
+        <button id="adminUsersBtn" class="btn btn-sm btn-outline no-print" onclick="openUserManagementModal()" style="color: white; border-color: rgba(255,255,255,0.6); padding: 4px 10px; font-size: 11px; display: none;">
+          <i class="fa-solid fa-users-gear"></i> ইউজার ম্যানেজ
+        </button>
+        <button class="btn btn-sm no-print" onclick="handleLogout()" style="background: #dc2626; color: white; border: none; border-radius: 4px; padding: 4px 10px; font-size: 11px; cursor: pointer; font-weight: bold;" title="লগআউট">
+          <i class="fa-solid fa-power-off"></i> লগআউট
+        </button>
       </div>
-      <div id="cloudBadge" class="cloud-status">
-        <i class="fa-solid fa-cloud-arrow-up"></i>
-        <span id="cloudStatusText">Local Storage (Active)</span>
-      </div>
-    </div>
-  </header>
+    </header>
 
   <!-- Navigation Tabs -->
   <nav class="nav-tabs">
@@ -1774,7 +2047,71 @@
   </div>
 
 
-  <!-- ========================================== -->
+  
+  <!-- User Management Modal (Admin Only) -->
+  <div id="userManagementModal" class="modal">
+    <div class="modal-content" style="max-width: 650px;">
+      <div class="modal-header" style="background: #9c2a2b; color: #fff;">
+        <h3 style="margin: 0; font-size: 16px;"><i class="fa-solid fa-users-gear"></i> ইউজার ম্যানেজমেন্ট (User Accounts Management)</h3>
+        <button class="close-btn" onclick="closeModal('userManagementModal')" style="color: #fff;">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 20px;">
+        <!-- Add New User Form -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+          <h4 style="margin: 0 0 10px 0; color: #1e293b; font-size: 14px;"><i class="fa-solid fa-user-plus"></i> নতুন ইউজার তৈরি করুন</h4>
+          <form id="createUserForm" onsubmit="handleCreateUser(event)" style="display: grid; grid-template-columns: 1fr 1fr 120px auto; gap: 10px; align-items: end;">
+            <div>
+              <label style="font-size: 11px; font-weight: bold; color: #475569; display: block; margin-bottom: 4px;">ইউজার আইডি / নাম *</label>
+              <input type="text" id="newUsername" required placeholder="যেমন: staff1" style="width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px;" />
+            </div>
+            <div>
+              <label style="font-size: 11px; font-weight: bold; color: #475569; display: block; margin-bottom: 4px;">পাসওয়ার্ড *</label>
+              <input type="password" id="newUserPassword" required placeholder="পাসওয়ার্ড লিখুন" style="width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px;" />
+            </div>
+            <div>
+              <label style="font-size: 11px; font-weight: bold; color: #475569; display: block; margin-bottom: 4px;">রোল (Role)</label>
+              <select id="newUserRole" style="width: 100%; padding: 7px 10px; font-size: 13px; border: 1px solid #cbd5e1; border-radius: 4px;">
+                <option value="Operator">Operator</option>
+                <option value="Manager">Manager</option>
+                <option value="Admin">Admin</option>
+              </select>
+            </div>
+            <div>
+              <button type="submit" class="btn btn-primary" style="padding: 8px 14px; font-size: 13px; white-space: nowrap; height: 35px;">
+                <i class="fa-solid fa-plus"></i> তৈরি করুন
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Users List Table -->
+        <h4 style="margin: 0 0 10px 0; color: #1e293b; font-size: 14px;"><i class="fa-solid fa-list-check"></i> বর্তমান ইউজার তালিকা</h4>
+        <div style="max-height: 250px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 6px;">
+          <table class="data-table" style="width: 100%; font-size: 12px; margin: 0;">
+            <thead>
+              <tr style="background: #f1f5f9;">
+                <th style="padding: 8px 10px;">ইউজার আইডি</th>
+                <th style="padding: 8px 10px;">রোল (Role)</th>
+                <th style="padding: 8px 10px;">তৈরির তারিখ</th>
+                <th style="padding: 8px 10px; text-align: center;">অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="userListTableBody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div> <!-- /#mainAppWrapper -->
+
+  <!-- Global Floating Notification Toast Container -->
+  <div id="syncToastContainer" class="sync-toast-container"></div>
+
+
+<!-- ========================================== -->
   <!-- JAVASCRIPT APPLICATION ENGINE              -->
   <!-- ========================================== -->
   <script>
@@ -1785,8 +2122,13 @@
       INVOICES: 'rahmat_erp_invoices',
       RECEIPTS: 'rahmat_erp_receipts',
       FIREBASE_CONFIG: 'rahmat_erp_fb_config',
-      GOOGLE_SHEET: 'rahmat_erp_gsheet_config'
+      GOOGLE_SHEET: 'rahmat_erp_gsheet_config',
+      USERS: 'rahmat_erp_users',
+      AUTH_SESSION: 'rahmat_erp_auth_session'
     };
+
+    let appUsers = [];
+    let currentUserSession = null;
 
     const DEFAULT_GSHEET_URL = 'https://script.google.com/macros/s/AKfycbymPUgrFZW3eAFtL_tuhvhsNCeHtEtgPyVbHEbYA5dLlchSyNRGWwE67C23kPIlcUbYdw/exec';
 
@@ -1797,13 +2139,14 @@
     let firebaseDB = null;
     let gsheetConfig = {
       url: DEFAULT_GSHEET_URL,
-      secret: '',
+      secret: '1234',
       autoSync: true,
       connected: true
     };
 
     // Initialize application on load
     window.addEventListener('DOMContentLoaded', () => {
+      initAuthSystem();
       loadLocalDatabase();
       seedInitialDataIfEmpty();
       updateCustomerDropdowns();
@@ -1816,6 +2159,258 @@
       initGoogleSheetIfSaved();
       silentFetchFromGoogleSheet();
     });
+
+
+    // ==========================================
+    // FLOATING TOAST NOTIFICATION SYSTEM
+    // ==========================================
+    function showSyncToast(message, type = 'info') {
+      let container = document.getElementById('syncToastContainer');
+      if (!container) {
+        container = document.createElement('div');
+        container.id = 'syncToastContainer';
+        container.className = 'sync-toast-container';
+        document.body.appendChild(container);
+      }
+      const toast = document.createElement('div');
+      toast.className = 'sync-toast toast-' + type;
+      const iconMap = {
+        success: 'fa-circle-check',
+        error: 'fa-circle-xmark',
+        warning: 'fa-triangle-exclamation',
+        info: 'fa-circle-info'
+      };
+      const icon = iconMap[type] || 'fa-bell';
+      toast.innerHTML = '<i class="fa-solid ' + icon + '"></i><span>' + message + '</span>';
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.animation = 'fadeOutToast 0.3s forwards';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // ==========================================
+    // AUTHENTICATION & ACCESS CONTROL
+    // ==========================================
+    const DEFAULT_ADMIN = {
+      username: 'admin',
+      password: 'Tally',
+      role: 'Admin',
+      createdAt: '2026-11-01'
+    };
+
+    function initAuthSystem() {
+      try {
+        const storedUsers = localStorage.getItem(DB_KEYS.USERS);
+        appUsers = storedUsers ? JSON.parse(storedUsers) : [];
+      } catch (e) {
+        appUsers = [];
+      }
+      // Ensure admin exists with Tally
+      let adminIndex = appUsers.findIndex(u => u.username && u.username.toLowerCase() === 'admin');
+      if (adminIndex === -1) {
+        appUsers.unshift(DEFAULT_ADMIN);
+        persistData(DB_KEYS.USERS, appUsers);
+      } else if (!appUsers[adminIndex].password) {
+        appUsers[adminIndex].password = 'Tally';
+        persistData(DB_KEYS.USERS, appUsers);
+      }
+
+      // Check saved session
+      try {
+        const sessionData = localStorage.getItem(DB_KEYS.AUTH_SESSION);
+        if (sessionData) {
+          const parsedSession = JSON.parse(sessionData);
+          const validUser = appUsers.find(u => u.username && u.username.toLowerCase() === parsedSession.username.toLowerCase());
+          if (validUser) {
+            unlockAppView(validUser);
+            return;
+          }
+        }
+      } catch (e) {}
+
+      lockAppView();
+    }
+
+    function lockAppView() {
+      currentUserSession = null;
+      const loginScr = document.getElementById('loginScreen');
+      const appWrap = document.getElementById('mainAppWrapper');
+      if (loginScr) loginScr.style.display = 'flex';
+      if (appWrap) appWrap.style.display = 'none';
+
+      const errorDiv = document.getElementById('loginErrorMsg');
+      if (errorDiv) errorDiv.style.display = 'none';
+      const passInput = document.getElementById('loginPassword');
+      if (passInput) passInput.value = '';
+    }
+
+    function unlockAppView(user) {
+      currentUserSession = user;
+      const loginScr = document.getElementById('loginScreen');
+      const appWrap = document.getElementById('mainAppWrapper');
+      if (loginScr) loginScr.style.display = 'none';
+      if (appWrap) appWrap.style.display = 'block';
+
+      const userDisplay = document.getElementById('activeUserDisplay');
+      if (userDisplay) userDisplay.innerText = user.username;
+
+      const roleDisplay = document.getElementById('activeRoleDisplay');
+      if (roleDisplay) roleDisplay.innerText = user.role || 'User';
+
+      const adminBtn = document.getElementById('adminUsersBtn');
+      if (adminBtn) {
+        adminBtn.style.display = (user.role === 'Admin') ? 'inline-flex' : 'none';
+      }
+    }
+
+    function handleLoginSubmit(event) {
+      event.preventDefault();
+      const username = (document.getElementById('loginUsername').value || '').trim();
+      const password = (document.getElementById('loginPassword').value || '').trim();
+      const errorDiv = document.getElementById('loginErrorMsg');
+      const errorText = document.getElementById('loginErrorText');
+
+      const matched = appUsers.find(u => u.username && u.username.toLowerCase() === username.toLowerCase() && u.password === password);
+      if (matched) {
+        localStorage.setItem(DB_KEYS.AUTH_SESSION, JSON.stringify({
+          username: matched.username,
+          role: matched.role,
+          loggedInAt: new Date().toISOString()
+        }));
+        if (errorDiv) errorDiv.style.display = 'none';
+        unlockAppView(matched);
+        showSyncToast('স্বাগতম ' + matched.username + '! সফলভাবে লগইন হয়েছে।', 'success');
+      } else {
+        if (errorDiv && errorText) {
+          errorText.innerText = 'ভুল ইউজার আইডি অথবা পাসওয়ার্ড!';
+          errorDiv.style.display = 'flex';
+        }
+      }
+    }
+
+    function handleLogout() {
+      if (confirm('আপনি কি নিশ্চিত যে সফটওয়্যার থেকে লগআউট করতে চান?')) {
+        localStorage.removeItem(DB_KEYS.AUTH_SESSION);
+        lockAppView();
+        showSyncToast('সফলভাবে লগআউট করা হয়েছে।', 'info');
+      }
+    }
+
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (!input) return;
+      const icon = btn.querySelector('i');
+      if (input.type === 'password') {
+        input.type = 'text';
+        if (icon) { icon.classList.remove('fa-eye'); icon.classList.add('fa-eye-slash'); }
+      } else {
+        input.type = 'password';
+        if (icon) { icon.classList.remove('fa-eye-slash'); icon.classList.add('fa-eye'); }
+      }
+    }
+
+    // ==========================================
+    // USER MANAGEMENT (ADMIN ONLY)
+    // ==========================================
+    function openUserManagementModal() {
+      if (!currentUserSession || currentUserSession.role !== 'Admin') {
+        alert('শুধুমাত্র এডমিন ইউজাররা নতুন ইউজার পরিচালনা করতে পারবেন।');
+        return;
+      }
+      renderUserListTable();
+      document.getElementById('userManagementModal').style.display = 'flex';
+    }
+
+    function renderUserListTable() {
+      const tbody = document.getElementById('userListTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      appUsers.forEach((u) => {
+        const tr = document.createElement('tr');
+        const isCurrent = currentUserSession && currentUserSession.username.toLowerCase() === u.username.toLowerCase();
+        tr.innerHTML = `
+          <td style="padding: 8px 10px; font-weight: 600;">
+            <i class="fa-solid fa-user" style="color: #64748b; margin-right: 6px;"></i>${u.username}
+            ${isCurrent ? '<span style="font-size: 10px; color: #16a34a; font-weight: bold; margin-left: 4px;">(Current)</span>' : ''}
+          </td>
+          <td style="padding: 8px 10px;">
+            <span style="display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; background: ${u.role === 'Admin' ? '#fef3c7; color: #92400e;' : '#e0f2fe; color: #0369a1;'}">${u.role || 'Operator'}</span>
+          </td>
+          <td style="padding: 8px 10px; color: #64748b;">${u.createdAt || '-'}</td>
+          <td style="padding: 8px 10px; text-align: center; white-space: nowrap;">
+            <button class="btn btn-sm btn-outline" onclick="promptChangeUserPassword('${u.username}')" style="padding: 2px 6px; font-size: 11px; margin-right: 4px;" title="পাসওয়ার্ড পরিবর্তন">
+              <i class="fa-solid fa-key"></i> পাসওয়ার্ড
+            </button>
+            ${u.username.toLowerCase() !== 'admin' ? `
+            <button class="btn btn-sm btn-danger" onclick="deleteUserAccount('${u.username}')" style="padding: 2px 6px; font-size: 11px; background: #dc2626; color: white;" title="ডিলিট">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>` : ''}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function handleCreateUser(e) {
+      e.preventDefault();
+      const name = (document.getElementById('newUsername').value || '').trim();
+      const pass = (document.getElementById('newUserPassword').value || '').trim();
+      const role = document.getElementById('newUserRole').value || 'Operator';
+
+      if (!name || !pass) {
+        alert('দয়া করে ইউজার আইডি এবং পাসওয়ার্ড উভয়ই লিখুন।');
+        return;
+      }
+
+      if (appUsers.some(u => u.username && u.username.toLowerCase() === name.toLowerCase())) {
+        alert('এই নামের ইউজার আইডি আগেই তৈরি করা আছে! দয়া করে অন্য আইডি ব্যবহার করুন।');
+        return;
+      }
+
+      const newUser = {
+        username: name,
+        password: pass,
+        role: role,
+        createdAt: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+      };
+
+      appUsers.push(newUser);
+      persistData(DB_KEYS.USERS, appUsers);
+      syncSingleItemToGoogleSheet('saveUser', { user: newUser });
+
+      document.getElementById('newUsername').value = '';
+      document.getElementById('newUserPassword').value = '';
+      renderUserListTable();
+      showSyncToast('নতুন ইউজার "' + name + '" সফলভাবে তৈরি করা হয়েছে!', 'success');
+    }
+
+    function promptChangeUserPassword(username) {
+      const newPass = prompt('ইউজার "' + username + '" এর জন্য নতুন পাসওয়ার্ড দিন:');
+      if (!newPass || !newPass.trim()) return;
+
+      const target = appUsers.find(u => u.username && u.username.toLowerCase() === username.toLowerCase());
+      if (target) {
+        target.password = newPass.trim();
+        persistData(DB_KEYS.USERS, appUsers);
+        syncSingleItemToGoogleSheet('saveUser', { user: target });
+        showSyncToast('"' + username + '" এর পাসওয়ার্ড সফলভাবে আপডেট হয়েছে!', 'success');
+      }
+    }
+
+    function deleteUserAccount(username) {
+      if (username.toLowerCase() === 'admin') {
+        alert('প্রধান এডমিন একাউন্ট ডিলিট করা যাবে না!');
+        return;
+      }
+      if (confirm('আপনি কি নিশ্চিত যে ইউজার "' + username + '" ডিলিট করতে চান?')) {
+        appUsers = appUsers.filter(u => !u.username || u.username.toLowerCase() !== username.toLowerCase());
+        persistData(DB_KEYS.USERS, appUsers);
+        renderUserListTable();
+        showSyncToast('ইউজার "' + username + '" মুছে ফেলা হয়েছে।', 'info');
+      }
+    }
+
 
     // Load LocalStorage Data
     function loadLocalDatabase() {
@@ -2402,9 +2997,11 @@
       }
 
       // Auto-sync bill and customer to Google Sheet
-      syncSingleItemToGoogleSheet('saveInvoice', { invoice: invoiceData, customer: cust });
+      showSyncToast(`চালান নং ${billNo} সফলভাবে সেভ হয়েছে!`, 'success');
+      syncSingleItemToGoogleSheet('saveInvoice', { invoice: invoiceData, customer: cust }).then(() => {
+        showSyncToast(`চালান নং ${billNo} ক্লাউড গুগল শিটে সংরক্ষিত হয়েছে!`, 'success');
+      });
 
-      alert(`চালান নং ${billNo} সফলভাবে সেভ হয়েছে এবং কাস্টমার লেজার আপডেট হয়েছে!`);
       renderInvoiceRegister();
       renderCustomerList();
     }
@@ -2570,7 +3167,7 @@
       updateProductsDatalist();
       closeModal('addProductModal');
       renderProductListTable();
-      alert(`"${name}" পণ্যটি সফলভাবে তালিকায় সংরক্ষিত হয়েছে!`);
+      showSyncToast('"' + name + '" পণ্যটি সফলভাবে সংরক্ষিত ও শিটে আপডেট হয়েছে!', 'success');
     }
 
     function openProductsListModal() {
@@ -2730,7 +3327,7 @@
       updateCustomerDropdowns();
       renderCustomerList();
       closeModal('addCustomerModal');
-      alert('কাস্টমার তথ্য সফলভাবে সেভ করা হয়েছে!');
+      showSyncToast('কাস্টমার "' + newCust.name + '" সফলভাবে সেভ ও শিটে আপডেট হয়েছে!', 'success');
     }
 
     function deleteCustomer(id) {
@@ -2969,8 +3566,10 @@
       }
 
       persistData(DB_KEYS.RECEIPTS, appReceipts);
-      syncSingleItemToGoogleSheet('saveReceipt', { receipt: receiptData });
-      alert(`মানি রিসিট ${receiptNo} সফলভাবে সেভ করা হয়েছে এবং কাস্টমার একাউন্টে জমা হয়েছে!`);
+      showSyncToast(`মানি রিসিট ${receiptNo} সফলভাবে সেভ হয়েছে!`, 'success');
+      syncSingleItemToGoogleSheet('saveReceipt', { receipt: receiptData }).then(() => {
+        showSyncToast(`মানি রিসিট ${receiptNo} ক্লাউড গুগল শিটে সংরক্ষিত হয়েছে!`, 'success');
+      });
       renderCustomerList();
     }
 
@@ -3442,9 +4041,25 @@
     // GOOGLE SHEETS LIVE CLOUD DATABASE ENGINE
     // ==========================================
     const RAW_APPS_SCRIPT_CODE = `/**
+ * ====================================================================
  * RAHMAT & SONS TRADE INTERNATIONAL - GOOGLE APPS SCRIPT DATABASE
+ * ====================================================================
+ * এই স্ক্রিপ্টটি আপনার Google Sheet কে একটি রিয়েল-টাইম ক্লাউড ডাটাবেজে
+ * রূপান্তর করে। বিলিং ওয়েবসাইট থেকে প্রতিটি চালান, কাস্টমার, পণ্য,
+ * মানি রিসিট এবং ইউজার একাউন্ট স্বয়ংক্রিয়ভাবে সংরক্ষিত হবে।
+ *
+ * ইন্সটলেশন গাইড:
+ * ১. আপনার Google Sheet-এ যান (drive.google.com)।
+ * ২. Extensions > Apps Script মেনুতে যান।
+ * ৩. আগের সব কোড মুছে এই সম্পূর্ণ কোডটি পেস্ট করুন।
+ * ৪. উপরে 'Save' বাটনে ক্লিক করুন।
+ * ৫. ডানপাশে 'Deploy' > 'Manage deployments' এ গিয়ে এডিট করে 'New version' দিয়ে ডিপ্লয় করুন
+ *    (অথবা New deployment > Web app > Execute as: Me, Who has access: Anyone).
+ * ====================================================================
  */
-var SECRET_PASSCODE = "";
+
+// ঐচ্ছিক গোপন পাসকোড
+var SECRET_PASSCODE = "1234";
 
 function doGet(e) {
   try {
@@ -3455,20 +4070,27 @@ function doGet(e) {
     var products = getSheetDataAsJson(ss.getSheetByName("Products"));
     var invoices = getSheetDataAsJson(ss.getSheetByName("Invoices"));
     var receipts = getSheetDataAsJson(ss.getSheetByName("Receipts"));
+    var users = getSheetDataAsJson(ss.getSheetByName("Users"));
 
+    // Convert items JSON strings back to objects
     invoices.forEach(function(inv) {
       if (inv.items && typeof inv.items === "string") {
         try { inv.items = JSON.parse(inv.items); } catch(err) {}
       }
     });
 
-    return ContentService.createTextOutput(JSON.stringify({
+    var result = {
       status: "success",
+      exportDate: new Date().toISOString(),
       customers: customers,
       products: products,
       invoices: invoices,
-      receipts: receipts
-    })).setMimeType(ContentService.MimeType.JSON);
+      receipts: receipts,
+      users: users
+    };
+
+    return ContentService.createTextOutput(JSON.stringify(result))
+      .setMimeType(ContentService.MimeType.JSON);
   } catch (err) {
     return ContentService.createTextOutput(JSON.stringify({ status: "error", message: err.toString() }))
       .setMimeType(ContentService.MimeType.JSON);
@@ -3478,44 +4100,84 @@ function doGet(e) {
 function doPost(e) {
   try {
     var contents = e.postData ? e.postData.contents : "";
-    var data = contents ? JSON.parse(contents) : (e.parameter || {});
+    var data = {};
+    if (contents) {
+      data = JSON.parse(contents);
+    } else if (e.parameter) {
+      data = e.parameter;
+    }
 
-    if (SECRET_PASSCODE && data.secret !== SECRET_PASSCODE) {
-      return ContentService.createTextOutput(JSON.stringify({ status: "error", message: "Unauthorized" }))
+    // Optional Passcode Check
+    if (SECRET_PASSCODE && data.secret && data.secret !== SECRET_PASSCODE) {
+      return ContentService.createTextOutput(JSON.stringify({ status: "error", message: "Unauthorized: Invalid Secret Passcode" }))
         .setMimeType(ContentService.MimeType.JSON);
     }
 
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     ensureAllSheetsExist(ss);
+
     var action = data.action || "syncAll";
 
+    if (action === "ping") {
+      return createJsonResponse({ status: "success", message: "pong" });
+    }
+
     if (action === "syncAll") {
-      if (data.customers) writeCustomersSheet(ss.getSheetByName("Customers"), data.customers);
-      if (data.products) writeProductsSheet(ss.getSheetByName("Products"), data.products);
-      if (data.invoices) writeInvoicesSheet(ss.getSheetByName("Invoices"), data.invoices);
-      if (data.receipts) writeReceiptsSheet(ss.getSheetByName("Receipts"), data.receipts);
-      return createJsonResponse({ status: "success", message: "Synchronized all data to Google Sheet." });
+      if (data.customers && Array.isArray(data.customers)) {
+        writeCustomersSheet(ss.getSheetByName("Customers"), data.customers);
+      }
+      if (data.products && Array.isArray(data.products)) {
+        writeProductsSheet(ss.getSheetByName("Products"), data.products);
+      }
+      if (data.invoices && Array.isArray(data.invoices)) {
+        writeInvoicesSheet(ss.getSheetByName("Invoices"), data.invoices);
+      }
+      if (data.receipts && Array.isArray(data.receipts)) {
+        writeReceiptsSheet(ss.getSheetByName("Receipts"), data.receipts);
+      }
+      if (data.users && Array.isArray(data.users)) {
+        writeUsersSheet(ss.getSheetByName("Users"), data.users);
+      }
+      return createJsonResponse({ status: "success", message: "All database tables synchronized successfully to Google Sheet!" });
     }
 
     if (action === "saveInvoice") {
-      if (data.invoice) upsertInvoice(ss.getSheetByName("Invoices"), data.invoice);
-      if (data.customer) upsertCustomer(ss.getSheetByName("Customers"), data.customer);
-      return createJsonResponse({ status: "success", message: "Invoice saved." });
+      var inv = data.invoice;
+      if (inv) {
+        upsertInvoice(ss.getSheetByName("Invoices"), inv);
+      }
+      if (data.customer) {
+        upsertCustomer(ss.getSheetByName("Customers"), data.customer);
+      }
+      return createJsonResponse({ status: "success", message: "Invoice & Customer saved to Google Sheet." });
     }
 
     if (action === "saveCustomer") {
-      if (data.customer) upsertCustomer(ss.getSheetByName("Customers"), data.customer);
-      return createJsonResponse({ status: "success", message: "Customer saved." });
+      if (data.customer) {
+        upsertCustomer(ss.getSheetByName("Customers"), data.customer);
+      }
+      return createJsonResponse({ status: "success", message: "Customer saved to Google Sheet." });
     }
 
     if (action === "saveProduct") {
-      if (data.product) upsertProduct(ss.getSheetByName("Products"), data.product);
-      return createJsonResponse({ status: "success", message: "Product saved." });
+      if (data.product) {
+        upsertProduct(ss.getSheetByName("Products"), data.product);
+      }
+      return createJsonResponse({ status: "success", message: "Product saved to Google Sheet." });
     }
 
     if (action === "saveReceipt") {
-      if (data.receipt) upsertReceipt(ss.getSheetByName("Receipts"), data.receipt);
-      return createJsonResponse({ status: "success", message: "Receipt saved." });
+      if (data.receipt) {
+        upsertReceipt(ss.getSheetByName("Receipts"), data.receipt);
+      }
+      return createJsonResponse({ status: "success", message: "Money Receipt saved to Google Sheet." });
+    }
+
+    if (action === "saveUser") {
+      if (data.user) {
+        upsertUser(ss.getSheetByName("Users"), data.user);
+      }
+      return createJsonResponse({ status: "success", message: "User account saved to Google Sheet." });
     }
 
     return createJsonResponse({ status: "error", message: "Unknown action" });
@@ -3525,12 +4187,18 @@ function doPost(e) {
 }
 
 function createJsonResponse(obj) {
-  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 
+// Ensure 5 tabs exist with formatted headers
 function ensureAllSheetsExist(ss) {
-  ["Invoices", "Customers", "Products", "Receipts"].forEach(function(name) {
-    if (!ss.getSheetByName(name)) ss.insertSheet(name);
+  var sheets = ["Invoices", "Customers", "Products", "Receipts", "Users"];
+  sheets.forEach(function(name) {
+    var sheet = ss.getSheetByName(name);
+    if (!sheet) {
+      sheet = ss.insertSheet(name);
+    }
   });
 }
 
@@ -3538,9 +4206,21 @@ function writeCustomersSheet(sheet, customers) {
   sheet.clear();
   var headers = ["id", "name", "company", "phone", "contactPerson", "address", "openingBalance", "taxNo", "updatedAt"];
   var rows = [headers];
+
   customers.forEach(function(c) {
-    rows.push([c.id||"", c.name||"", c.company||"", c.phone||"", c.contactPerson||"", c.address||"", c.openingBalance||0, c.taxNo||"", new Date().toLocaleString()]);
+    rows.push([
+      c.id || "",
+      c.name || "",
+      c.company || "",
+      c.phone || "",
+      c.contactPerson || "",
+      c.address || "",
+      c.openingBalance || 0,
+      c.taxNo || "",
+      new Date().toLocaleString()
+    ]);
   });
+
   sheet.getRange(1, 1, rows.length, headers.length).setValues(rows);
   formatHeaderRow(sheet, "#1e3a8a", headers.length);
 }
@@ -3549,9 +4229,18 @@ function writeProductsSheet(sheet, products) {
   sheet.clear();
   var headers = ["id", "name", "price", "category", "unit", "updatedAt"];
   var rows = [headers];
+
   products.forEach(function(p) {
-    rows.push([p.id||"", p.name||"", parseFloat(p.price)||0, p.category||"", p.unit||"Sheets", new Date().toLocaleString()]);
+    rows.push([
+      p.id || "",
+      p.name || "",
+      parseFloat(p.price) || 0,
+      p.category || "",
+      p.unit || "Sheets",
+      new Date().toLocaleString()
+    ]);
   });
+
   sheet.getRange(1, 1, rows.length, headers.length).setValues(rows);
   formatHeaderRow(sheet, "#047857", headers.length);
 }
@@ -3560,9 +4249,27 @@ function writeInvoicesSheet(sheet, invoices) {
   sheet.clear();
   var headers = ["billNo", "billDate", "custName", "custAddress", "contactPerson", "contactPhone", "vatNo", "vatDate", "poNo", "poDate", "billNote", "grandTotal", "inWord", "items", "savedAt"];
   var rows = [headers];
+
   invoices.forEach(function(inv) {
-    rows.push([inv.billNo||"", inv.billDate||"", inv.custName||"", inv.custAddress||"", inv.contactPerson||"", inv.contactPhone||"", inv.vatNo||"", inv.vatDate||"", inv.poNo||"", inv.poDate||"", inv.billNote||"", parseFloat(inv.grandTotal)||0, inv.inWord||"", JSON.stringify(inv.items||[]), inv.savedAt||new Date().toISOString()]);
+    rows.push([
+      inv.billNo || "",
+      inv.billDate || "",
+      inv.custName || "",
+      inv.custAddress || "",
+      inv.contactPerson || "",
+      inv.contactPhone || "",
+      inv.vatNo || "",
+      inv.vatDate || "",
+      inv.poNo || "",
+      inv.poDate || "",
+      inv.billNote || "",
+      parseFloat(inv.grandTotal) || 0,
+      inv.inWord || "",
+      JSON.stringify(inv.items || []),
+      inv.savedAt || new Date().toISOString()
+    ]);
   });
+
   sheet.getRange(1, 1, rows.length, headers.length).setValues(rows);
   formatHeaderRow(sheet, "#9c2a2b", headers.length);
 }
@@ -3571,71 +4278,253 @@ function writeReceiptsSheet(sheet, receipts) {
   sheet.clear();
   var headers = ["receiptNo", "date", "customerName", "mode", "memoDate", "bankName", "chequeNo", "amount", "inWords", "desc1", "desc2", "savedAt"];
   var rows = [headers];
+
   receipts.forEach(function(r) {
-    rows.push([r.receiptNo||"", r.date||"", r.customerName||"", r.mode||"Cash", r.memoDate||"", r.bankName||"", r.chequeNo||"", parseFloat(r.amount)||0, r.inWords||"", r.desc1||"", r.desc2||"", r.savedAt||new Date().toISOString()]);
+    rows.push([
+      r.receiptNo || "",
+      r.date || "",
+      r.customerName || "",
+      r.mode || "Cash",
+      r.memoDate || "",
+      r.bankName || "",
+      r.chequeNo || "",
+      parseFloat(r.amount) || 0,
+      r.inWords || "",
+      r.desc1 || "",
+      r.desc2 || "",
+      r.savedAt || new Date().toISOString()
+    ]);
   });
+
   sheet.getRange(1, 1, rows.length, headers.length).setValues(rows);
   formatHeaderRow(sheet, "#581c87", headers.length);
 }
 
+function writeUsersSheet(sheet, users) {
+  sheet.clear();
+  var headers = ["username", "password", "name", "role", "createdAt"];
+  var rows = [headers];
+
+  users.forEach(function(u) {
+    rows.push([
+      u.username || "",
+      u.password || "",
+      u.name || "",
+      u.role || "Operator",
+      u.createdAt || new Date().toLocaleString()
+    ]);
+  });
+
+  sheet.getRange(1, 1, rows.length, headers.length).setValues(rows);
+  formatHeaderRow(sheet, "#334155", headers.length);
+}
+
 function upsertInvoice(sheet, inv) {
   var data = sheet.getDataRange().getValues();
-  if (data.length <= 1) return writeInvoicesSheet(sheet, [inv]);
+  if (data.length <= 1) {
+    writeInvoicesSheet(sheet, [inv]);
+    return;
+  }
+
+  var headers = data[0];
+  var billNoCol = headers.indexOf("billNo");
+  if (billNoCol === -1) billNoCol = 0;
+
   var rowIndex = -1;
   for (var i = 1; i < data.length; i++) {
-    if (String(data[i][0]) === String(inv.billNo)) { rowIndex = i + 1; break; }
+    if (String(data[i][billNoCol]) === String(inv.billNo)) {
+      rowIndex = i + 1;
+      break;
+    }
   }
-  var row = [inv.billNo||"", inv.billDate||"", inv.custName||"", inv.custAddress||"", inv.contactPerson||"", inv.contactPhone||"", inv.vatNo||"", inv.vatDate||"", inv.poNo||"", inv.poDate||"", inv.billNote||"", parseFloat(inv.grandTotal)||0, inv.inWord||"", JSON.stringify(inv.items||[]), inv.savedAt||new Date().toISOString()];
-  if (rowIndex > 0) sheet.getRange(rowIndex, 1, 1, row.length).setValues([row]);
-  else sheet.appendRow(row);
+
+  var rowValues = [
+    inv.billNo || "",
+    inv.billDate || "",
+    inv.custName || "",
+    inv.custAddress || "",
+    inv.contactPerson || "",
+    inv.contactPhone || "",
+    inv.vatNo || "",
+    inv.vatDate || "",
+    inv.poNo || "",
+    inv.poDate || "",
+    inv.billNote || "",
+    parseFloat(inv.grandTotal) || 0,
+    inv.inWord || "",
+    JSON.stringify(inv.items || []),
+    inv.savedAt || new Date().toISOString()
+  ];
+
+  if (rowIndex > 0) {
+    sheet.getRange(rowIndex, 1, 1, rowValues.length).setValues([rowValues]);
+  } else {
+    sheet.appendRow(rowValues);
+  }
 }
 
 function upsertCustomer(sheet, c) {
   var data = sheet.getDataRange().getValues();
-  if (data.length <= 1) return writeCustomersSheet(sheet, [c]);
+  if (data.length <= 1) {
+    writeCustomersSheet(sheet, [c]);
+    return;
+  }
+
+  var headers = data[0];
+  var nameCol = headers.indexOf("name");
+  if (nameCol === -1) nameCol = 1;
+
   var rowIndex = -1;
   for (var i = 1; i < data.length; i++) {
-    if (String(data[i][1]).toLowerCase() === String(c.name).toLowerCase()) { rowIndex = i + 1; break; }
+    if (String(data[i][nameCol]).toLowerCase() === String(c.name).toLowerCase()) {
+      rowIndex = i + 1;
+      break;
+    }
   }
-  var row = [c.id||"", c.name||"", c.company||"", c.phone||"", c.contactPerson||"", c.address||"", c.openingBalance||0, c.taxNo||"", new Date().toLocaleString()];
-  if (rowIndex > 0) sheet.getRange(rowIndex, 1, 1, row.length).setValues([row]);
-  else sheet.appendRow(row);
+
+  var rowValues = [
+    c.id || "",
+    c.name || "",
+    c.company || "",
+    c.phone || "",
+    c.contactPerson || "",
+    c.address || "",
+    c.openingBalance || 0,
+    c.taxNo || "",
+    new Date().toLocaleString()
+  ];
+
+  if (rowIndex > 0) {
+    sheet.getRange(rowIndex, 1, 1, rowValues.length).setValues([rowValues]);
+  } else {
+    sheet.appendRow(rowValues);
+  }
 }
 
 function upsertProduct(sheet, p) {
   var data = sheet.getDataRange().getValues();
-  if (data.length <= 1) return writeProductsSheet(sheet, [p]);
+  if (data.length <= 1) {
+    writeProductsSheet(sheet, [p]);
+    return;
+  }
+
+  var headers = data[0];
+  var nameCol = headers.indexOf("name");
+  if (nameCol === -1) nameCol = 1;
+
   var rowIndex = -1;
   for (var i = 1; i < data.length; i++) {
-    if (String(data[i][1]).toLowerCase() === String(p.name).toLowerCase()) { rowIndex = i + 1; break; }
+    if (String(data[i][nameCol]).toLowerCase() === String(p.name).toLowerCase()) {
+      rowIndex = i + 1;
+      break;
+    }
   }
-  var row = [p.id||"", p.name||"", parseFloat(p.price)||0, p.category||"", p.unit||"Sheets", new Date().toLocaleString()];
-  if (rowIndex > 0) sheet.getRange(rowIndex, 1, 1, row.length).setValues([row]);
-  else sheet.appendRow(row);
+
+  var rowValues = [
+    p.id || "",
+    p.name || "",
+    parseFloat(p.price) || 0,
+    p.category || "",
+    p.unit || "Sheets",
+    new Date().toLocaleString()
+  ];
+
+  if (rowIndex > 0) {
+    sheet.getRange(rowIndex, 1, 1, rowValues.length).setValues([rowValues]);
+  } else {
+    sheet.appendRow(rowValues);
+  }
 }
 
 function upsertReceipt(sheet, r) {
   var data = sheet.getDataRange().getValues();
-  if (data.length <= 1) return writeReceiptsSheet(sheet, [r]);
+  if (data.length <= 1) {
+    writeReceiptsSheet(sheet, [r]);
+    return;
+  }
+
+  var headers = data[0];
+  var noCol = headers.indexOf("receiptNo");
+  if (noCol === -1) noCol = 0;
+
   var rowIndex = -1;
   for (var i = 1; i < data.length; i++) {
-    if (String(data[i][0]) === String(r.receiptNo)) { rowIndex = i + 1; break; }
+    if (String(data[i][noCol]) === String(r.receiptNo)) {
+      rowIndex = i + 1;
+      break;
+    }
   }
-  var row = [r.receiptNo||"", r.date||"", r.customerName||"", r.mode||"Cash", r.memoDate||"", r.bankName||"", r.chequeNo||"", parseFloat(r.amount)||0, r.inWords||"", r.desc1||"", r.desc2||"", r.savedAt||new Date().toISOString()];
-  if (rowIndex > 0) sheet.getRange(rowIndex, 1, 1, row.length).setValues([row]);
-  else sheet.appendRow(row);
+
+  var rowValues = [
+    r.receiptNo || "",
+    r.date || "",
+    r.customerName || "",
+    r.mode || "Cash",
+    r.memoDate || "",
+    r.bankName || "",
+    r.chequeNo || "",
+    parseFloat(r.amount) || 0,
+    r.inWords || "",
+    r.desc1 || "",
+    r.desc2 || "",
+    r.savedAt || new Date().toISOString()
+  ];
+
+  if (rowIndex > 0) {
+    sheet.getRange(rowIndex, 1, 1, rowValues.length).setValues([rowValues]);
+  } else {
+    sheet.appendRow(rowValues);
+  }
+}
+
+function upsertUser(sheet, u) {
+  var data = sheet.getDataRange().getValues();
+  if (data.length <= 1) {
+    writeUsersSheet(sheet, [u]);
+    return;
+  }
+
+  var headers = data[0];
+  var userCol = headers.indexOf("username");
+  if (userCol === -1) userCol = 0;
+
+  var rowIndex = -1;
+  for (var i = 1; i < data.length; i++) {
+    if (String(data[i][userCol]).toLowerCase() === String(u.username).toLowerCase()) {
+      rowIndex = i + 1;
+      break;
+    }
+  }
+
+  var rowValues = [
+    u.username || "",
+    u.password || "",
+    u.name || "",
+    u.role || "Operator",
+    u.createdAt || new Date().toLocaleString()
+  ];
+
+  if (rowIndex > 0) {
+    sheet.getRange(rowIndex, 1, 1, rowValues.length).setValues([rowValues]);
+  } else {
+    sheet.appendRow(rowValues);
+  }
 }
 
 function getSheetDataAsJson(sheet) {
   if (!sheet) return [];
   var data = sheet.getDataRange().getValues();
   if (data.length <= 1) return [];
+
   var headers = data[0];
   var result = [];
+
   for (var i = 1; i < data.length; i++) {
     var row = data[i];
     var obj = {};
-    for (var j = 0; j < headers.length; j++) obj[headers[j]] = row[j];
+    for (var j = 0; j < headers.length; j++) {
+      obj[headers[j]] = row[j];
+    }
     result.push(obj);
   }
   return result;
@@ -3647,7 +4536,8 @@ function formatHeaderRow(sheet, bgColor, colCount) {
   range.setFontColor("#ffffff");
   range.setFontWeight("bold");
   sheet.setFrozenRows(1);
-}`;
+}
+`;
 
     function initGoogleSheetIfSaved() {
       if (!gsheetConfig.url) {
@@ -3680,18 +4570,12 @@ function formatHeaderRow(sheet, bgColor, colCount) {
         const db = await res.json();
         if (db && db.status === 'success') {
           let updated = false;
-          if (db.customers && Array.isArray(db.customers) && db.customers.length > 0) {
-            appCustomers = db.customers;
-            persistData(DB_KEYS.CUSTOMERS, appCustomers);
-            updated = true;
-          }
-          if (db.products && Array.isArray(db.products) && db.products.length > 0) {
-            appProducts = db.products;
-            persistData(DB_KEYS.PRODUCTS, appProducts);
-            updated = true;
-          }
-          if (db.invoices && Array.isArray(db.invoices) && db.invoices.length > 0) {
-            appInvoices = db.invoices.map(inv => {
+          let missingLocalInvoices = [];
+
+          // 1. Smart Invoice Merge (Keep local bills not yet in Google Sheet)
+          if (db.invoices && Array.isArray(db.invoices)) {
+            const sheetInvMap = new Map();
+            db.invoices.forEach(inv => {
               let bDate = inv.billDate || '';
               if (bDate && String(bDate).includes('T')) {
                 try {
@@ -3701,16 +4585,85 @@ function formatHeaderRow(sheet, bgColor, colCount) {
                   }
                 } catch(e) {}
               }
-              return { ...inv, billDate: bDate };
+              sheetInvMap.set(String(inv.billNo), { ...inv, billDate: bDate });
             });
+
+            // Retain local invoices that aren't yet in Google Sheet
+            appInvoices.forEach(locInv => {
+              if (locInv.billNo && !sheetInvMap.has(String(locInv.billNo))) {
+                sheetInvMap.set(String(locInv.billNo), locInv);
+                missingLocalInvoices.push(locInv);
+              }
+            });
+
+            appInvoices = Array.from(sheetInvMap.values());
             persistData(DB_KEYS.INVOICES, appInvoices);
             updated = true;
           }
-          if (db.receipts && Array.isArray(db.receipts) && db.receipts.length > 0) {
-            appReceipts = db.receipts;
+
+          // 2. Customers Merge
+          if (db.customers && Array.isArray(db.customers)) {
+            const custMap = new Map();
+            db.customers.forEach(c => {
+              if (c.name) custMap.set(String(c.name).toLowerCase(), c);
+            });
+            appCustomers.forEach(c => {
+              if (c.name && !custMap.has(String(c.name).toLowerCase())) {
+                custMap.set(String(c.name).toLowerCase(), c);
+              }
+            });
+            appCustomers = Array.from(custMap.values());
+            persistData(DB_KEYS.CUSTOMERS, appCustomers);
+            updated = true;
+          }
+
+          // 3. Products Merge
+          if (db.products && Array.isArray(db.products)) {
+            const prodMap = new Map();
+            db.products.forEach(p => {
+              if (p.name) prodMap.set(String(p.name).toLowerCase(), p);
+            });
+            appProducts.forEach(p => {
+              if (p.name && !prodMap.has(String(p.name).toLowerCase())) {
+                prodMap.set(String(p.name).toLowerCase(), p);
+              }
+            });
+            appProducts = Array.from(prodMap.values());
+            persistData(DB_KEYS.PRODUCTS, appProducts);
+            updated = true;
+          }
+
+          // 4. Receipts Merge
+          if (db.receipts && Array.isArray(db.receipts)) {
+            const rcptMap = new Map();
+            db.receipts.forEach(r => {
+              if (r.receiptNo) rcptMap.set(String(r.receiptNo), r);
+            });
+            appReceipts.forEach(r => {
+              if (r.receiptNo && !rcptMap.has(String(r.receiptNo))) {
+                rcptMap.set(String(r.receiptNo), r);
+              }
+            });
+            appReceipts = Array.from(rcptMap.values());
             persistData(DB_KEYS.RECEIPTS, appReceipts);
             updated = true;
           }
+
+          // 5. Users Merge from Google Sheet
+          if (db.users && Array.isArray(db.users) && db.users.length > 0) {
+            const userMap = new Map();
+            db.users.forEach(u => {
+              if (u.username) userMap.set(String(u.username).toLowerCase(), u);
+            });
+            appUsers.forEach(u => {
+              if (u.username && !userMap.has(String(u.username).toLowerCase())) {
+                userMap.set(String(u.username).toLowerCase(), u);
+              }
+            });
+            appUsers = Array.from(userMap.values());
+            persistData(DB_KEYS.USERS, appUsers);
+          }
+
           if (updated) {
             updateCustomerDropdowns();
             updateProductsDatalist();
@@ -3718,6 +4671,13 @@ function formatHeaderRow(sheet, bgColor, colCount) {
             renderInvoiceRegister();
             updateDashboardStats();
           }
+
+          // Auto-push any local invoices that were missing from sheet
+          if (missingLocalInvoices.length > 0) {
+            console.log("Auto-syncing " + missingLocalInvoices.length + " local invoices to Google Sheet...");
+            syncAllToGoogleSheet(false);
+          }
+
           const cloudStatusText = document.getElementById('cloudStatusText');
           if (cloudStatusText) {
             cloudStatusText.innerText = `Google Sheet Synced (${appInvoices.length} Bills)`;
@@ -3813,21 +4773,27 @@ function formatHeaderRow(sheet, bgColor, colCount) {
       }
     }
 
-    function syncSingleItemToGoogleSheet(action, payload) {
-      if (!gsheetConfig.url || gsheetConfig.autoSync === false) return;
+    async function syncSingleItemToGoogleSheet(action, payload) {
+      if (!gsheetConfig.url || gsheetConfig.autoSync === false) return { status: 'skipped' };
 
       const bodyData = {
         action: action,
-        secret: gsheetConfig.secret || '',
+        secret: gsheetConfig.secret || '1234',
         ...payload
       };
 
-      fetch(gsheetConfig.url, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify(bodyData)
-      }).catch(e => console.warn("Background GSheet Sync:", e));
+      try {
+        await fetch(gsheetConfig.url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(bodyData)
+        });
+        return { status: 'success' };
+      } catch (e) {
+        console.warn("Background GSheet Sync warning (saved locally, will retry):", e);
+        return { status: 'offline' };
+      }
     }
 
     async function fetchAllFromGoogleSheet() {
